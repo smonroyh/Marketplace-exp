@@ -34,6 +34,8 @@ class AuthScreen extends StatelessWidget {
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+
+          print("BUILDER DEL AUTHSCREEN");
           if (state.profileCompleted && state.userId != null && state.selectedRole == UserRole.cliente) {
             return const HomeScreen();
           }

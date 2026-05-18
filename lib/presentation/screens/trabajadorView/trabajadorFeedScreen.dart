@@ -33,7 +33,8 @@ class WorkerFeedScreen extends StatelessWidget {
             color: Colors.redAccent,
             onPressed: () {
               context.read<AuthBloc>().add(AuthLogoutRequested());
-              // print(context.read<AuthBloc>().state.userId);
+              print("requesting log out");
+              print(context.read<AuthBloc>().state.userId);
             },
           ),
         ],

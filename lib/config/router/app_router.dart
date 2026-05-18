@@ -1,5 +1,7 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:push_app/entities/solicitudes.dart';
 import 'package:push_app/presentation/blocs/auth/auth_state.dart';
@@ -13,10 +15,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:push_app/presentation/screens/trabajadorView/Detalle/DetalleSolicitudWorker.dart';
 import 'package:push_app/presentation/screens/trabajadorView/mainWorkerScreen.dart';
 
-final appRouter = GoRouter(
-  
+class _AuthChangeNotifier extends ChangeNotifier {
+  _AuthChangeNotifier() {
+    FirebaseAuth.instance.authStateChanges().listen((_) => notifyListeners());
+  }
+}
 
-    
+final _authChangeNotifier = _AuthChangeNotifier();
+
+final appRouter = GoRouter(
+  refreshListenable: _authChangeNotifier,
+  redirect: (context, state) {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null && state.uri.path != '/') {
+      return '/';
+    }
+    return null;
+  },
   routes: [
     // GoRoute(
     //   path: "/",
