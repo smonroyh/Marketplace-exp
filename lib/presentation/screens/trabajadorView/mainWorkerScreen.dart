@@ -7,6 +7,9 @@ import 'package:push_app/presentation/blocs/profile/profile_bloc.dart';
 import 'package:push_app/presentation/blocs/workerFeed/worker_feed_bloc.dart';
 import 'package:push_app/presentation/screens/auth_screen.dart';
 import 'package:push_app/presentation/screens/trabajadorView/trabajadorFeedScreen.dart';
+import 'package:push_app/presentation/screens/trabajadorView/misPostulacionesScreen.dart';
+import 'package:push_app/presentation/screens/trabajadorView/trabajosActivosScreen.dart';
+import 'package:push_app/presentation/screens/trabajadorView/perfilTrabajadorScreen.dart';
 
 class MainWorkerScreen extends StatefulWidget {
   const MainWorkerScreen({super.key});
@@ -32,10 +35,11 @@ class _MainWorkerScreenState extends State<MainWorkerScreen> {
   // Lista de pantallas principales
   final List<Widget> _pages = [
     const WorkerFeedScreen(), // Explorar
-    // const MisPostulacionesScreen(), // Gestión de ofertas enviadas
-    // const TrabajosActivosScreen(),  // Lo que está haciendo ahora
-    // const PerfilTrabajadorScreen(), // Perfil, ingresos y reviews
+    const MisPostulacionesScreen(), // Gestión de ofertas enviadas
+    const TrabajosActivosScreen(),  // Lo que está haciendo ahora
+    const PerfilTrabajadorScreen(), // Perfil, ingresos y reviews
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,19 +90,17 @@ class _MainWorkerScreenState extends State<MainWorkerScreen> {
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() => _selectedIndex = index),
         type: BottomNavigationBarType.fixed, // Mantiene los iconos fijos
-        selectedItemColor: Colors.blue.shade700,
-        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
+        selectedItemColor: const Color(0xFF09090B),
+        unselectedItemColor: const Color(0xFFA1A1AA),
+        showUnselectedLabels: true,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Explorar'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.assignment),
-            label: 'Mis Ofertas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.construction),
-            label: 'Activos',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+          BottomNavigationBarItem(icon: Icon(Icons.assignment_outlined), activeIcon: Icon(Icons.assignment), label: 'Mis Ofertas'),
+          BottomNavigationBarItem(icon: Icon(Icons.handyman_outlined), activeIcon: Icon(Icons.handyman), label: 'Activos'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Perfil'),
         ],
       ),
     );

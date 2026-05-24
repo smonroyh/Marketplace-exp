@@ -55,41 +55,74 @@ class FormularioNecesidadScreen extends StatelessWidget {
         child: BlocBuilder<FormNeedBloc, FormNeedState>(
           builder: (context, state) {
             return Scaffold(
-              appBar: AppBar(title: const Text('Publicar necesidad')),
+              appBar: AppBar(
+                title: const Text('Solicitar Servicio'),
+                centerTitle: false,
+              ),
               body: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: ListView(
                   children: [
+                    const Text(
+                      '¿En qué podemos ayudarte?',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: -0.5),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Describe tu problema para que los profesionales te den un presupuesto.',
+                      style: TextStyle(fontSize: 14, color: Color(0xFF71717A)),
+                    ),
+                    const SizedBox(height: 32),
+                    
+                    // --- SECCIÓN: Detalles Básicos ---
+                    const Text('1. Detalles del problema', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    const SizedBox(height: 16),
                     CustomWidgetField(
-                      hintText: "Titulo",
+                      hintText: "Título (Ej. Fuga de agua en lavabo)",
                       errorText: state.titulo.displayError,
                       onChanged: (p0) =>
                           context.read<FormNeedBloc>().add(TitleChanged(p0)),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 16),
                     CustomWidgetField(
-                      hintText: "Descripción",
+                      hintText: "Descripción detallada",
                       errorText: state.descripcion.displayError,
-                      maxLines: 3,
+                      maxLines: 4,
                       onChanged: (p0) => context.read<FormNeedBloc>().add(
                         DescriptionChanged(p0),
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    CustomWidgetField(
-                      hintText: "Presupuesto",
-                      errorText: state.presupuesto.displayError != null
-        ? _mapError(state.presupuesto.error)
-        : null,
-                      onChanged: (p0) => context.read<FormNeedBloc>().add(
-                        PresupuestoChanged(double.tryParse(p0) ?? 0),
+                    const SizedBox(height: 24),
+
+                    // --- SECCIÓN: Fotos (MOCKUP) ---
+                    const Text('2. Fotos (Opcional)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    const SizedBox(height: 8),
+                    Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFAFAFA),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: const Color(0xFFE4E4E7), style: BorderStyle.solid), // Usamos sólido temporalmente en lugar de punteado para no usar paquetes extra
+                      ),
+                      child: const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.camera_alt_outlined, color: Color(0xFFA1A1AA), size: 32),
+                            SizedBox(height: 8),
+                            Text('Toca para subir fotos', style: TextStyle(color: Color(0xFF71717A))),
+                          ],
+                        ),
                       ),
                     ),
+                    const SizedBox(height: 32),
 
-                    // const SizedBox(height: 12),
+                    // --- SECCIÓN: Presupuesto y Categoría ---
+                    const Text('3. Clasificación y Precio', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
                       decoration: InputDecoration(
-                        labelText: 'Categoría',
+                        labelText: 'Categoría del servicio',
                         errorText: state.categoria.isNotValid
                             ? state.categoria.error
                             : null,
@@ -106,19 +139,45 @@ class FormularioNecesidadScreen extends StatelessWidget {
                           )
                           .toList(),
                     ),
-
-                    const SizedBox(height: 18),
-
-                    Text(
-                      'Presupuesto: ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    const SizedBox(height: 16),
+                    CustomWidgetField(
+                      hintText: "Presupuesto estimado (\$)",
+                      errorText: state.presupuesto.displayError != null
+                          ? _mapError(state.presupuesto.error)
+                          : null,
+                      onChanged: (p0) => context.read<FormNeedBloc>().add(
+                        PresupuestoChanged(double.tryParse(p0) ?? 0),
+                      ),
                     ),
-                    const Text(
-                      'A Negociar',
-                      style: TextStyle(color: Colors.orange),
+
+                    const SizedBox(height: 32),
+
+                    // --- SECCIÓN: Ubicación y Tiempo (MOCKUP) ---
+                    const Text('4. Ubicación y Horario', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      readOnly: true,
+                      initialValue: "Mi casa (Av. Principal 123)",
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.location_on_outlined, color: Color(0xFF71717A)),
+                        labelText: "Dirección",
+                      ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      readOnly: true,
+                      initialValue: "Lo antes posible",
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.access_time, color: Color(0xFF71717A)),
+                        labelText: "Cuándo",
+                      ),
+                    ),
+
+                    const SizedBox(height: 48),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 56),
+                      ),
                       onPressed: state.isValid
                           ? () {
                               context.read<FormNeedBloc>().add(
@@ -126,7 +185,7 @@ class FormularioNecesidadScreen extends StatelessWidget {
                               );
                             }
                           : null,
-                      child: const Text('Publicar'),
+                      child: const Text('Publicar Solicitud', style: TextStyle(fontSize: 16)),
                     ),
                   ],
                 ),

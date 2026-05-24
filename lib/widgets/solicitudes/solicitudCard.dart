@@ -52,16 +52,16 @@ class SolicitudCard extends StatelessWidget {
     final formattedDate = 
         '${solicitud.fechaCreacion.day}/${solicitud.fechaCreacion.month}/${solicitud.fechaCreacion.year}';
 
-    return Card(    
+    return Container(    
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      elevation: 3.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(color: statusColor.withOpacity(0.5), width: 1.0), // Borde suave basado en el estado
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: const Color(0xFFE4E4E7)),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(8.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
           child: Row(
@@ -86,23 +86,20 @@ class SolicitudCard extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       solicitud.titulo,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF09090B)),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4.0),
                     Text(
                       'Categoría: ${solicitud.categoria}',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: const TextStyle(fontSize: 14, color: Color(0xFF71717A)),
                     ),
                     // Mostrar el trabajador solo si ya está asignado
                     if (solicitud.status != SolicitudStatus.pendiente)
                       Text(
                         'Trabajador: ${solicitud.trabajadorId ?? 'No asignado'}',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: const TextStyle(fontSize: 14, color: Color(0xFF71717A)),
                       ),
                     
                     const SizedBox(height: 8.0),
@@ -110,11 +107,11 @@ class SolicitudCard extends StatelessWidget {
                     // Fecha de Creación
                     Row(
                       children: [
-                        const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                        const Icon(Icons.calendar_today, size: 14, color: Color(0xFFA1A1AA)),
                         const SizedBox(width: 4.0),
                         Text(
                           'Creada: $formattedDate',
-                          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey.shade600),
+                          style: const TextStyle(fontSize: 12, color: Color(0xFFA1A1AA)),
                         ),
                       ],
                     ),

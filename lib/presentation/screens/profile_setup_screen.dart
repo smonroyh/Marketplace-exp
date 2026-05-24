@@ -36,7 +36,8 @@ class ProfileSetupScreen extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(rol == UserRole.cliente ? 'Completa tu perfil' : 'Configuras tu perfil'),
+                title: Text(rol == UserRole.cliente ? 'Completa tu perfil' : 'Configura tu perfil'),
+                centerTitle: false,
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(24),
@@ -58,7 +59,7 @@ class ProfileSetupScreen extends StatelessWidget {
       children: [
         const Text(
           'Información del Cliente',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: -0.5),
         ),
         const SizedBox(height: 24),
         TextField(
@@ -115,7 +116,7 @@ class ProfileSetupScreen extends StatelessWidget {
       children: [
         const Text(
           'Información del Trabajador',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: -0.5),
         ),
         const SizedBox(height: 24),
         TextField(
@@ -137,8 +138,10 @@ class ProfileSetupScreen extends StatelessWidget {
           children: oficiosDisponibles.map((oficio) {
             final isSelected = state.oficios.contains(oficio);
             return FilterChip(
-              label: Text(oficio),
+              label: Text(oficio, style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF09090B))),
               selected: isSelected,
+              selectedColor: const Color(0xFF09090B),
+              checkmarkColor: Colors.white,
               onSelected: (selected) {
                 final nuevosOficios = List<String>.from(state.oficios);
                 if (selected) {

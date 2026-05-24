@@ -13,87 +13,127 @@ class PublicacionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0, // Sombra suave para destacar
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      shape: RoundedRectangleBorder(
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
+        border: Border.all(color: const Color(0xFFE4E4E7)),
       ),
       child: InkWell(
-        onTap: onTap, // Permite que la tarjeta sea interactiva
+        onTap: onTap,
         borderRadius: BorderRadius.circular(12.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // --- 1. Header: Foto y Categoría ---
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                  radius: 30.0,
-                  backgroundImage: NetworkImage(publicacion.fotoUrl),
-                  backgroundColor: Colors.blueGrey,
-                ),
-                title: Text(
-                  publicacion.nombreTrabajador,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
+              // --- Left: Worker Image ---
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  publicacion.fotoUrl,
+                  width: 64,
+                  height: 64,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: 64,
+                    height: 64,
+                    color: const Color(0xFFF4F4F5),
+                    child: const Icon(Icons.person, color: Color(0xFF71717A)),
                   ),
                 ),
-                subtitle: Text(
-                  publicacion.categoria,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16.0),
               ),
-              
-              const Divider(height: 12.0),
+              const SizedBox(width: 16.0),
 
-              // --- 2. Título y Descripción del Servicio ---
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  publicacion.titulo,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Text(
-                publicacion.descripcionCorta,
-                style: Theme.of(context).textTheme.bodyMedium,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+              // --- Right: Info Column ---
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // Name & Rating Badge
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            publicacion.nombreTrabajador,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF09090B),
+                              letterSpacing: -0.3,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF4F4F5),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.star, color: Color(0xFFF59E0B), size: 12),
+                              const SizedBox(width: 4),
+                              Text(
+                                publicacion.rating.toStringAsFixed(1),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF09090B),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4.0),
 
-              const SizedBox(height: 16.0),
-
-              // --- 3. Footer: Rating y Trabajos Completados ---
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  // Rating (Estrellas)
-                  _buildRating(publicacion.rating),
-                  
-                  // Trabajos Completados
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${publicacion.trabajosCompletados}',
-                        style: Theme.of(context).textTheme.titleMedium,
+                    // Title / Category
+                    Text(
+                      publicacion.titulo,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF71717A),
                       ),
-                      Text(
-                        'Trabajos Completados',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8.0),
+
+                    // Stats row: Distance & Completed reviews
+                    Row(
+                      children: [
+                        const Text(
+                          '1.2 km', // Mock distance
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF71717A),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        const Text(
+                          '•',
+                          style: TextStyle(
+                            color: Color(0xFFE4E4E7),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '${publicacion.trabajosCompletados} trabajos',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF71717A),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
